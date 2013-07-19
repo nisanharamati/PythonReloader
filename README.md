@@ -1,7 +1,7 @@
 PythonReloader
 ==============
 
-Short sample of reloading new code on the fly directly into an active runtime loop by using the imp module.
+Short sample of reloading new code on the fly directly into the active runtime loop of a worker (e.g. the kind you would have consuming a stream in real-time) by using the imp module.
 
 run reloader/processworker.py or reloader/threadworker.py directly.
 
