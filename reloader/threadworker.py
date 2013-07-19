@@ -2,6 +2,7 @@ import threading
 import Queue
 import time
 import loader
+
 # a basic iterative worker that executes the same function in a continuous
 # loop.
 # We will be replacing the function it's executing on the fly.
@@ -21,6 +22,8 @@ class Worker(threading.Thread):
         self._func = loader.load_func(filename, function)
         print 'function replaced:', filename, function
     
+    # use a queue to get results in real time from the worker
+    # let the parent deal with the no-data case.
     def get(self):
         try:
             return self._out.get_nowait()
@@ -46,6 +49,7 @@ if __name__ == '__main__':
     w.start()
     # sleep for a buncha time
     # use a chunkated sleeper...
+    # print a result if one is available.
     _t = time.time()+seconds
     while time.time() < _t:
         time.sleep(0.1)
@@ -60,6 +64,7 @@ if __name__ == '__main__':
     # tell the worker to reload its function
     w.replace_function('func2.py', 'func')
     
+    # repeat the sleep period
     _t = time.time()+seconds
     while time.time() < _t:
         time.sleep(0.1)
@@ -69,5 +74,6 @@ if __name__ == '__main__':
     o = w.get()
     if o is not None:
         print o
+    
     # stop worker.
     w.stop()
